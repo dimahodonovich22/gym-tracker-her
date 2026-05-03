@@ -733,6 +733,19 @@ function stopSilentLoop() {
   if (silentAudio) { try { silentAudio.pause(); } catch {} }
 }
 
+function restToSeconds(rest) {
+  if (!rest) return 0;
+  const s = String(rest).toLowerCase().trim();
+  if (s === "—" || s === "-" || s === "") return 0;
+  const minSec = s.match(/^(\d+)[,.](\d+)\s*мин/);
+  if (minSec) return parseInt(minSec[1], 10) * 60 + parseInt(minSec[2], 10);
+  const min = s.match(/(\d+)(?:\s*[-–]\s*\d+)?\s*мин/);
+  if (min) return parseInt(min[1], 10) * 60;
+  const sec = s.match(/(\d+)\s*сек/);
+  if (sec) return parseInt(sec[1], 10);
+  return 0;
+}
+
 function startRest(seconds, label) {
   ensureAudio();
   restEnd = Date.now() + seconds * 1000;
