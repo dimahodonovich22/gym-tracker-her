@@ -1,4 +1,4 @@
-const CACHE = "gymtracker-her-v7";
+const CACHE = "gymtracker-her-v8";
 const ASSETS = [
   "./",
   "./index.html",
