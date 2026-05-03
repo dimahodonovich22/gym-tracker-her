@@ -336,3 +336,93 @@ textarea.notes:focus { outline: none; border-color: var(--accent); }
   position: fixed; inset: 0; pointer-events: none; z-index: 300;
   display: none;
 }
+
+/* Motivation popup — shown after each working set */
+.motivation-pop {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 18vh;
+  background: rgba(8, 6, 14, 0.32);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  animation: motInBg 0.22s ease-out;
+}
+.motivation-pop.out { animation: motOutBg 0.22s ease-in forwards; }
+.motivation-card {
+  position: relative;
+  max-width: 320px;
+  width: calc(100% - 40px);
+  padding: 22px 24px 18px;
+  text-align: center;
+  border-radius: 22px;
+  background: linear-gradient(135deg, #ff8fb1 0%, #c084fc 55%, #a78bfa 100%);
+  box-shadow:
+    0 24px 60px rgba(192, 132, 252, 0.45),
+    0 8px 24px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  animation: motInCard 0.32s cubic-bezier(.34, 1.56, .64, 1);
+}
+.motivation-pop.out .motivation-card { animation: motOutCard 0.22s ease-in forwards; }
+.motivation-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(120% 80% at 20% 0%, rgba(255, 255, 255, 0.35) 0%, transparent 60%);
+  pointer-events: none;
+}
+.motivation-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  margin-bottom: 10px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+.motivation-text {
+  font-size: 17px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.35;
+  margin-bottom: 16px;
+  letter-spacing: 0.005em;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+.motivation-btn {
+  background: #fff;
+  color: #9d4edd;
+  font: 700 14px/1 inherit;
+  letter-spacing: 0.01em;
+  border: 0;
+  border-radius: 12px;
+  padding: 12px 22px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22), inset 0 -2px 0 rgba(0, 0, 0, 0.05);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.motivation-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28), inset 0 -2px 0 rgba(0, 0, 0, 0.05);
+}
+.motivation-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes motInBg { from { opacity: 0; } to { opacity: 1; } }
+@keyframes motOutBg { to { opacity: 0; } }
+@keyframes motInCard {
+  from { opacity: 0; transform: translateY(-30px) scale(0.86); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes motOutCard {
+  to { opacity: 0; transform: translateY(-18px) scale(0.92); }
+}
