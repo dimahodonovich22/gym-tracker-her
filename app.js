@@ -1167,14 +1167,16 @@ route();
 if (state.activeSessionId) requestWakeLock();
 
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("./sw.js").then(reg => {
-    reg.addEventListener("updatefound", () => {
-      const w = reg.installing;
-      w?.addEventListener("statechange", () => {
-        if (w.state === "installed" && navigator.serviceWorker.controller) {
-          toast("Обновление доступно. Перезагрузите приложение.");
-        }
-      });
+  navigator.serviceWorker.register("./sw.js").catch(() => {});
+  // Auto-reload once when a new SW takes control (skipWaiting + clients.claim
+  // hand over immediately). Skip the very first registration where there was
+  // no prior controller, so a first-time visit doesn't reload itself.
+  if (navigator.serviceWorker.controller) {
+    let reloading = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (reloading) return;
+      reloading = true;
+      window.location.reload();
     });
-  }).catch(() => {});
+  }
 }
